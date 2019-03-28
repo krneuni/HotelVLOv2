@@ -1,0 +1,95 @@
+﻿@model VLO.Models.CocinaViewModel
+@{
+    ViewBag.Title = "Pagos";
+}
+@{
+    int Item = 1;
+    var IdOrden = "0";
+    try
+    {
+        IdOrden = Convert.ToString(Model.detalle.FirstOrDefault().IdPedido);
+    }
+    catch
+    {
+        IdOrden = "0";
+    }
+    var totalapagar = 0.0;
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Cliente</th>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var menu in Model.detalle)
+                        {
+                            if (menu != null)
+                            {
+                                <tr>
+                                    @{
+                                        var producto = Model.menus.Where(x => x.IdMenu == menu.IdMenu).First();
+                                    }
+                                    <th class="row">@Item</th>
+                                    <th>@menu.Pedido.Cliente</th>
+                                    <td>@producto.Nombre</td>
+                                    <td>
+                                        @if (menu.Pedido.Estado == 1)
+                                        {
+                                            <span class="badge badge-danger">
+                                                En Cocina
+                                            </span>
+                                        }
+                                        else if (menu.Pedido.Estado == 2)
+                                        {
+                                            <span class="badge badge-success">
+                                                Terminado
+                                            </span>
+                                        }
+                                        else if (menu.Pedido.Estado == 3)
+                                        {
+                                            <span class="badge badge-warning">
+                                                Esperando pago
+                                            </span>
+                                        }
+                                        else if (menu.Pedido.Estado == 4)
+                                        {
+                                            <span class="badge badge-dark" >
+                                                Pagado
+                                            </span>
+                                        }
+
+                                    </td>
+                                    <td>@menu.cantidad</td>
+                                    <td class="color-primary">@producto.Precio.ToString("C")</td>
+                                    <td class="color-primary">@((producto.Precio * menu.cantidad).ToString("C"))</td>
+                                </tr>
+                                Item = Item + 1;
+                                totalapagar += (producto.Precio * menu.cantidad);
+                            }
+                        }
+
+                    </tbody>
+                        <tr>
+                            <td colspan="4" style="text-align:right;font-size:20px;color:#000">Total: </td>
+                            <td colspan="1" style="font-size:20px;color:#000">
+                                <span id="totalpagar">@((totalapagar).ToString("C"))</span>
+                            </td>
+                        </tr>
+                    <tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

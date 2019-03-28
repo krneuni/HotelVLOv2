@@ -1,0 +1,54 @@
+﻿@model VLO.Models.Prestamos
+
+@{
+    ViewBag.Title = "Solicitar";
+}
+
+<h2>Solicitar</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+       
+            <div class="thumbnail">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdProducto, "Producto", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("IdProducto", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdProducto, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-6">
+
+                    </div>
+                    <div class="col-md-6">
+                        
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+
+                    </div>
+                    <div class="col-md-6">
+                        
+                    </div>
+                </div>
+            </div>
+    </div>
+
+
+
+        
+}
